@@ -1,9 +1,5 @@
 package arrays
 
-import (
-	"sort"
-)
-
 func CyclicRotation(A []int, K int) []int {
 	if K == 0 || K == len(A) {
 		return A
@@ -24,19 +20,22 @@ func CyclicRotation(A []int, K int) []int {
 }
 
 func OddOccurrencesInArray(A []int) int {
-	if len(A) == 1 {
-		return A[0]
-	}
-	sort.IntSlice.Sort(A)
-	var oddOccurrence int
-	for i := range A {
-		if i == 0 && A[i] != A[i+1] {
-			return A[i]
-		} else if i > 0 && i < len(A)-1 && (A[i] != A[i-1] && A[i] != A[i+1]) {
-			return A[i]
-		} else if i == len(A)-1 && A[i] != A[i-1] {
-			return A[i]
+	countOfNums := make(map[int]int)
+	
+	for _, v := range A {
+		val, isCounted := countOfNums[v]
+		if !isCounted {
+			countOfNums[v] = 1
+		} else {
+			countOfNums[v] = val + 1
 		}
 	}
-	return oddOccurrence
+
+	for num, count := range countOfNums {
+		if count%2 != 0 {
+			return num
+		}
+	}
+	
+	return 0
 }
