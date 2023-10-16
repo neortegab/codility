@@ -20,23 +20,16 @@ func Distinct(A []int) int {
 }
 
 func MaxTriplProd(A []int) int {
-	triplet := make([]int, 3)
+	sort.IntSlice.Sort(A)
+	pos1,pos2,pos3 := A[len(A)-1], A[len(A)-2], A[len(A)-3]
+	neg1, neg2 := A[0], A[1]
 
-    for i := range A {
-		if triplet[0] == 0 {
-			triplet[0] = A[i]
-		} else if triplet[1] == 0 {
-			triplet[1] = A[i]
-		} else if triplet[2] == 0{
-			triplet[2] = A[i]
-		} else if A[i] > triplet[0] {
-			triplet[0] = A[i]
-		} else if A[i] > triplet[1] {
-			triplet[1] = A[i]
-		} else if A[i] > triplet[2] {
-			triplet[2] = A[i]
-		}
-    }
+	maxNegProd := neg1 * neg2 * pos1
+	maxPosProd := pos1 * pos2 * pos3
 
-	return triplet[0] * triplet[1] * triplet[2]
+	if maxNegProd > maxPosProd {
+		return maxNegProd
+	} else {
+		return maxPosProd
+	}
 }
